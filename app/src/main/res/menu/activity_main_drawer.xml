@@ -17,7 +17,7 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_slideshow" />
         <item
-            android:id="@+id/nav_sticker"
+            android:id="@+id/fragment_sticker"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_sticker" />
         <item

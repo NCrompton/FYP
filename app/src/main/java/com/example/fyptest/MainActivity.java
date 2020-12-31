@@ -1,16 +1,12 @@
 package com.example.fyptest;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Button;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -22,7 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
-import java.util.Objects;
+
+import io.mattcarroll.hover.overlay.OverlayPermission;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fabShare;
     ArrayList<String> mPermissions = new ArrayList();
     private static final int ALL_PERMISSIONS_RESULT = 1011;
+    private static final int REQUEST_CODE_HOVER_PERMISSION = 1000;
+    private boolean mPermissionsRequested = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_camera)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.fragment_sticker)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Start requesting permission
-        mPermissions.add(Manifest.permission.CAMERA);
+        /**mPermissions.add(Manifest.permission.CAMERA);
         mPermissions.add(Manifest.permission.SYSTEM_ALERT_WINDOW);
 
         ArrayList<String> mPermissionsToRequest = permissionsToRequest(mPermissions);
@@ -94,11 +93,17 @@ public class MainActivity extends AppCompatActivity {
                         new String[mPermissionsToRequest.size()]),
                         ALL_PERMISSIONS_RESULT);
             }
+        }**/
+
+        if (!mPermissionsRequested && !OverlayPermission.hasRuntimePermissionToDrawOverlay(this)) {
+            @SuppressWarnings("NewApi")
+            Intent myIntent = OverlayPermission.createIntentToRequestOverlayPermission(this);
+            startActivityForResult(myIntent, REQUEST_CODE_HOVER_PERMISSION);
         }
         //End requesting permission
     }
 
-    private ArrayList<String> permissionsToRequest(ArrayList<String> permissions) {
+    /**private ArrayList<String> permissionsToRequest(ArrayList<String> permissions) {
         ArrayList<String> result = new ArrayList<>();
         for (String permission : permissions)
             if (!hasPermission(permission))
@@ -111,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             return Objects.requireNonNull(this)
                     .checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
         return true;
-    }
+    }**/
 
     private void OpenFab() {
         fabCamera.animate().translationY(-getResources().getDimension(R.dimen.fab_camera_margin));
@@ -137,5 +142,14 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (REQUEST_CODE_HOVER_PERMISSION == requestCode) {
+            mPermissionsRequested = true;
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

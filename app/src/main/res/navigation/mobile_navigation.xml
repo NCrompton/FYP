@@ -22,4 +22,8 @@
         android:name="com.example.fyptest.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/fragment_sticker"
+        android:name="com.example.fyptest.FragmentSticker"
+        android:label="FragmentSticker" />
 </navigation>

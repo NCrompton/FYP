@@ -14,7 +14,7 @@ public class FYPHoverMenuService extends HoverMenuService {
     private static final String TAG = "DemoHoverMenuService";
 
     public static void showFloatingMenu(Context context) {
-        context.startService(new Intent(context, DemoHoverMenuService.class));
+        context.startService(new Intent(context, FYPHoverMenuService.class));
     }
 
     @Override
@@ -40,6 +40,6 @@ public class FYPHoverMenuService extends HoverMenuService {
 
     @NonNull
     private HoverMenu createHoverMenu() {
-        return new DemoHoverMenu(getApplicationContext(), "nonfullscreen");
+        return new FYPHoverMenu(getApplicationContext(), "nonfullscreen");
     }
 }
