@@ -1,6 +1,9 @@
 package com.example.fyptest;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -8,6 +11,7 @@ import android.widget.Button;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+//import com.microsoft.projectoxford.emotion.EmotionServiceRestClient;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import io.mattcarroll.hover.overlay.OverlayPermission;
 
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Start requesting permission
-        /**mPermissions.add(Manifest.permission.CAMERA);
+        mPermissions.add(Manifest.permission.CAMERA);
         mPermissions.add(Manifest.permission.SYSTEM_ALERT_WINDOW);
 
         ArrayList<String> mPermissionsToRequest = permissionsToRequest(mPermissions);
@@ -93,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                         new String[mPermissionsToRequest.size()]),
                         ALL_PERMISSIONS_RESULT);
             }
-        }**/
+        }
 
         if (!mPermissionsRequested && !OverlayPermission.hasRuntimePermissionToDrawOverlay(this)) {
             @SuppressWarnings("NewApi")
@@ -103,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         //End requesting permission
     }
 
-    /**private ArrayList<String> permissionsToRequest(ArrayList<String> permissions) {
+    private ArrayList<String> permissionsToRequest(ArrayList<String> permissions) {
         ArrayList<String> result = new ArrayList<>();
         for (String permission : permissions)
             if (!hasPermission(permission))
@@ -116,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
             return Objects.requireNonNull(this)
                     .checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
         return true;
-    }**/
+    }
+
 
     private void OpenFab() {
         fabCamera.animate().translationY(-getResources().getDimension(R.dimen.fab_camera_margin));
